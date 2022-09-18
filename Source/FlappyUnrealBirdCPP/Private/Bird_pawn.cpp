@@ -20,6 +20,14 @@
 #include "Game_mode_custom.h"
 
 
+//.CPP
+#include <LevelSequenceActor.h>
+#include <LevelSequencePlayer.h>
+#include <MovieSceneSequencePlayer.h>
+
+
+
+
 // Sets default values
 ABird_pawn::ABird_pawn()
 {
@@ -89,7 +97,7 @@ void ABird_pawn::fly()
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
 	mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
 
-	if (death_sound == nullptr) return;
+	if (fly_sound == nullptr) return;
 	UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
 }
 
@@ -129,8 +137,10 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 		//mesh_Bird->AddRadialImpulse(GetActorLocation(), 1000000, 1000000,ERadialImpulseFalloff::RIF_Linear);
 		//mesh_Bird->AddImpulse(FVector::UpVector * (dead_impulse * 1000000));
 		mesh_Bird->AddImpulse(FVector((dead_impulse * 1000000), (dead_impulse * 100000), (dead_impulse * 1000000)));
-		if (death_sound == nullptr) return;
-		UGameplayStatics::PlaySound2D(GetWorld(), death_sound);
+		//Beginplay example
+		
+		if (death_sound_level_sequence == nullptr) return;
+		death_sound_level_sequence->SequencePlayer->Play();
 	}
 
 	

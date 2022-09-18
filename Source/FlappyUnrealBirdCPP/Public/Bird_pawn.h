@@ -65,8 +65,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class USoundBase* coint_sound {nullptr};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class USoundBase* death_sound{ nullptr };
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class ALevelSequenceActor* death_sound_level_sequence{nullptr}; //load the level_Sequencer from editor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class USoundBase* fly_sound{ nullptr };
@@ -79,6 +79,10 @@ public:
 
 	UFUNCTION()
 	void OnTimerOut_search_game_mode();
+
+
+
+
 
 
 
