@@ -49,6 +49,7 @@ ABird_pawn::ABird_pawn()
 	box_trigger_dead->AttachToComponent(mesh_Bird, FAttachmentTransformRules::KeepRelativeTransform);
 
 
+
 }
 
 // Called when the game starts or when spawned
