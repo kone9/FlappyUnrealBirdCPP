@@ -28,4 +28,9 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool init_columns = false;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int score{0};
+
 };

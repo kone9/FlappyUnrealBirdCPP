@@ -90,8 +90,8 @@ private:
 	class UTextRenderComponent* bestScoreTextRender{ nullptr };
 
 
-
-
+private:
+	void add_score();
 
 
 

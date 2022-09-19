@@ -134,6 +134,9 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 		if (coint_sound == nullptr) return;
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, TEXT("SUMO PUNOS"));
 		UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
+
+		add_score();
+
 	}
 	else//si colisiono con obstaculo
 	{
@@ -193,6 +196,22 @@ UTextRenderComponent* ABird_pawn::search_component3DTEXT_in_bluprint(FName compo
 	{
 		return text_spatial;
 	}
+
+
+}
+
+//agrega puntaje al tablero principal y a la interface del juego
+void ABird_pawn::add_score()
+{
+	if (game_mode == nullptr) return;
+	if (scoreText_3D == nullptr) return;
+
+	game_mode->score += 1;
+	int score = game_mode->score;
+
+	FString score_String{ FString::FromInt(score) };
+	FName scorefname{ FName(*score_String) };
+	scoreText_3D->SetText( FText::FromString(score_String) );
 
 
 }
