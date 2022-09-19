@@ -25,6 +25,8 @@
 #include <LevelSequencePlayer.h>
 #include <MovieSceneSequencePlayer.h>
 
+//text render 3D
+#include "Components/TextRenderComponent.h"
 
 
 
@@ -64,6 +66,9 @@ void ABird_pawn::BeginPlay()
 	if (GetWorld() == nullptr) return;
 	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.1, false);
 	mesh_Bird->SetSimulatePhysics(false);
+
+	scoreText_3D = search_component3DTEXT_in_bluprint(TEXT("scoreText_3D"));
+	bestScoreTextRender = search_component3DTEXT_in_bluprint(TEXT("BestScoreTextRender"));
 
 }
 
@@ -161,5 +166,34 @@ void ABird_pawn::OnTimerOut_search_game_mode()
 	}
 
 	game_mode = Cast<AGame_mode_custom>(GetWorld()->GetAuthGameMode());
+}
+
+
+//busca los textos que se encuentran dentro de los componetes en los blueprint
+UTextRenderComponent* ABird_pawn::search_component3DTEXT_in_bluprint(FName componentTag)
+{
+
+	//Begin play example
+	//search and get actor with tag
+	TArray<AActor*> actor_with_tag{};
+	FName tag_actor = TEXT("tablero_end_Blueprint");// add tag actor here
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), tag_actor, actor_with_tag);
+	AActor* actor = actor_with_tag[0];
+
+	if (actor == nullptr) return nullptr;
+
+	UTextRenderComponent* text_spatial = Cast<UTextRenderComponent>( actor->GetComponentsByTag( UTextRenderComponent::StaticClass(), componentTag)[0] );
+
+	if (text_spatial == nullptr)
+	{
+		return nullptr;
+
+	}
+	else
+	{
+		return text_spatial;
+	}
+
+
 }
 

@@ -80,9 +80,14 @@ public:
 	UFUNCTION()
 	void OnTimerOut_search_game_mode();
 
+private:
+	class UTextRenderComponent* search_component3DTEXT_in_bluprint(FName componentTag);
 
+	UPROPERTY(VisibleAnywhere)
+	class UTextRenderComponent* scoreText_3D{ nullptr };
 
-
+	UPROPERTY(VisibleAnywhere)
+	class UTextRenderComponent* bestScoreTextRender{ nullptr };
 
 
 
