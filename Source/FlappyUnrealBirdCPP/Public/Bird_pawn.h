@@ -93,6 +93,8 @@ private:
 private:
 	void add_score();
 
-
+private:
+	UPROPERTY(VisibleAnywhere)
+	class UGameInstance_FlappyUnrealBird* my_game_instance;
 
 };

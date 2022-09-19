@@ -28,6 +28,9 @@
 //text render 3D
 #include "Components/TextRenderComponent.h"
 
+//game mde custom
+#include "GameInstance_FlappyUnrealBird.h"
+
 
 
 // Sets default values
@@ -131,12 +134,7 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	if (OtherComp == nullptr) return;
 	if( OtherComp->ComponentHasTag( TEXT("trigger_point") ) )//si colisiono con puntaje
 	{
-		if (coint_sound == nullptr) return;
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, TEXT("SUMO PUNOS"));
-		UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
-
 		add_score();
-
 	}
 	else//si colisiono con obstaculo
 	{
@@ -169,6 +167,7 @@ void ABird_pawn::OnTimerOut_search_game_mode()
 	}
 
 	game_mode = Cast<AGame_mode_custom>(GetWorld()->GetAuthGameMode());
+	my_game_instance = Cast<UGameInstance_FlappyUnrealBird>( UGameplayStatics::GetGameInstance(GetWorld()) ) ;
 }
 
 
@@ -205,6 +204,11 @@ void ABird_pawn::add_score()
 {
 	if (game_mode == nullptr) return;
 	if (scoreText_3D == nullptr) return;
+	if (my_game_instance == nullptr) return;
+	if (bestScoreTextRender == nullptr) return;
+	if (coint_sound == nullptr) return;
+
+	UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
 
 	game_mode->score += 1;
 	int score = game_mode->score;
@@ -213,6 +217,14 @@ void ABird_pawn::add_score()
 	FName scorefname{ FName(*score_String) };
 	scoreText_3D->SetText( FText::FromString(score_String) );
 
+	if (score > my_game_instance->max_score)
+	{
+		my_game_instance->max_score = score;
+		bestScoreTextRender->SetText(FText::FromString( score_String) );
+	}
 
+
+	const int int_to_print = score;
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("SUMA PUNTOS PUNTAJE ACTUAL = %i"), int_to_print));
 }
 
