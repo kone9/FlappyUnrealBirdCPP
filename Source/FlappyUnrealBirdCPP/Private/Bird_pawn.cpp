@@ -135,11 +135,9 @@ void ABird_pawn::pause_game()
 void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (game_mode->game_over == true) return;
-	if (GetWorld() == nullptr) return;
+	if (OtherComp == nullptr) return;
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, TEXT("LA COLISION DEL PAJARO CHOCO CON ALGO"));
 
-
-	if (OtherComp == nullptr) return;
 	if( OtherComp->ComponentHasTag( TEXT("trigger_point") ) )//si colisiono con puntaje
 	{
 		add_score();
@@ -234,6 +232,7 @@ void ABird_pawn::add_score()
 //cuando muere desactiva viewport, activa sonido morir, activa level sequencer morir, agrega impulso morir, game over en game_mode
 void ABird_pawn::to_die()
 {
+	if (GetWorld() == nullptr) return;
 	if (ref_widget_game == nullptr) return;
 	ref_widget_game->RemoveFromViewport();
 
