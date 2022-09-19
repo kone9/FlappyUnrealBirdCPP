@@ -31,6 +31,8 @@
 //game mde custom
 #include "GameInstance_FlappyUnrealBird.h"
 
+//user widget
+#include "Game_Widget.h"
 
 
 // Sets default values
@@ -53,8 +55,6 @@ ABird_pawn::ABird_pawn()
 	box_trigger_dead->SetBoxExtent(FVector(64, 64, 64));
 	box_trigger_dead->AttachToComponent(mesh_Bird, FAttachmentTransformRules::KeepRelativeTransform);
 
-
-
 }
 
 // Called when the game starts or when spawned
@@ -70,9 +70,16 @@ void ABird_pawn::BeginPlay()
 	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.1, false);
 	mesh_Bird->SetSimulatePhysics(false);
 
+	//get score text 3D en tabla final
 	scoreText_3D = search_component3DTEXT_in_bluprint(TEXT("scoreText_3D"));
 	bestScoreTextRender = search_component3DTEXT_in_bluprint(TEXT("BestScoreTextRender"));
 
+	//create widget from player
+
+	if (class_widget_game == nullptr) return;
+	ref_widget_game = Cast< UGame_Widget>( CreateWidget(GetWorld(), class_widget_game) );
+	if (ref_widget_game == nullptr) return;
+	ref_widget_game->AddToViewport();
 }
 
 // Called every frame

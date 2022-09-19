@@ -80,6 +80,8 @@ public:
 	UFUNCTION()
 	void OnTimerOut_search_game_mode();
 
+//relacionado a la interface
+
 private:
 	class UTextRenderComponent* search_component3DTEXT_in_bluprint(FName componentTag);
 
@@ -89,12 +91,21 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UTextRenderComponent* bestScoreTextRender{ nullptr };
 
-
 private:
 	void add_score();
 
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UGameInstance_FlappyUnrealBird* my_game_instance;
+
+
+public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UGame_Widget> class_widget_game;
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class UGame_Widget* ref_widget_game{ nullptr };
+
 
 };
