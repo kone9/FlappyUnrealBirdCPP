@@ -94,6 +94,8 @@ private:
 private:
 	void add_score();
 
+	void to_die();
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UGameInstance_FlappyUnrealBird* my_game_instance;

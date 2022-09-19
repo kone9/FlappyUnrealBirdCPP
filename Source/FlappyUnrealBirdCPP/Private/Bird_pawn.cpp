@@ -33,6 +33,7 @@
 
 //user widget
 #include "Game_Widget.h"
+#include "Components/TextBlock.h"
 
 
 // Sets default values
@@ -145,16 +146,7 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	}
 	else//si colisiono con obstaculo
 	{
-		DisableInput( UGameplayStatics::GetPlayerController( GetWorld(),0 ) );
-		if(game_mode != nullptr) game_mode->game_over = true;
-
-		//mesh_Bird->AddRadialImpulse(GetActorLocation(), 1000000, 1000000,ERadialImpulseFalloff::RIF_Linear);
-		//mesh_Bird->AddImpulse(FVector::UpVector * (dead_impulse * 1000000));
-		mesh_Bird->AddImpulse(FVector((dead_impulse * 1000000), (dead_impulse * 100000), (dead_impulse * 1000000)));
-		//Beginplay example
-		
-		if (death_sound_level_sequence == nullptr) return;
-		death_sound_level_sequence->SequencePlayer->Play();
+		to_die();
 	}
 
 	
@@ -214,6 +206,7 @@ void ABird_pawn::add_score()
 	if (my_game_instance == nullptr) return;
 	if (bestScoreTextRender == nullptr) return;
 	if (coint_sound == nullptr) return;
+	if (ref_widget_game == nullptr) return;
 
 	UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
 
@@ -230,8 +223,29 @@ void ABird_pawn::add_score()
 		bestScoreTextRender->SetText(FText::FromString( score_String) );
 	}
 
+	ref_widget_game->score_text->SetText(FText::FromString(score_String));
+	
 
 	const int int_to_print = score;
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("SUMA PUNTOS PUNTAJE ACTUAL = %i"), int_to_print));
+}
+
+
+//cuando muere desactiva viewport, activa sonido morir, activa level sequencer morir, agrega impulso morir, game over en game_mode
+void ABird_pawn::to_die()
+{
+	if (ref_widget_game == nullptr) return;
+	ref_widget_game->RemoveFromViewport();
+
+	DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (game_mode != nullptr) game_mode->game_over = true;
+
+	//mesh_Bird->AddRadialImpulse(GetActorLocation(), 1000000, 1000000,ERadialImpulseFalloff::RIF_Linear);
+	//mesh_Bird->AddImpulse(FVector::UpVector * (dead_impulse * 1000000));
+	mesh_Bird->AddImpulse(FVector((dead_impulse * 1000000), (dead_impulse * 100000), (dead_impulse * 1000000)));
+	//Beginplay example
+
+	if (death_sound_level_sequence == nullptr) return;
+	death_sound_level_sequence->SequencePlayer->Play();
 }
 
