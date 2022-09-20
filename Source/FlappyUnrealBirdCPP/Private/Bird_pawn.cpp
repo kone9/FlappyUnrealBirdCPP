@@ -3,24 +3,24 @@
 
 #include "Bird_pawn.h"
 
-#include "Components/InputComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Engine/Engine.h"
+
+//componentes unreal clases
 #include "Components/BoxComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Engine/StaticMesh.h"
+#include "Components/SkeletalMeshComponent.h"
 
+//unreal clases
 #include <Kismet/GameplayStatics.h>
 #include <Engine/World.h>
-
-
-#include <Kismet/GameplayStatics.h>
-#include <Engine/World.h>
+#include "Engine/Engine.h"
 #include "TimerManager.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/InputComponent.h"
+
+//game mode
 #include "Game_mode_custom.h"
 
 
-//.CPP
+//lvel sequencer
 #include <LevelSequenceActor.h>
 #include <LevelSequencePlayer.h>
 #include <MovieSceneSequencePlayer.h>
@@ -35,6 +35,11 @@
 #include "Game_Widget.h"
 #include "Components/TextBlock.h"
 
+//anim montage
+#include "Animation/AnimMontage.h" //If you are not in the character class you may have to import the library
+
+
+
 
 // Sets default values
 ABird_pawn::ABird_pawn()
@@ -42,16 +47,17 @@ ABird_pawn::ABird_pawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//create root component
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("root"));
 	RootComponent = Root;
 
-	
-
-	mesh_Bird = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("mesh_Bird"));
-	mesh_Bird->SetSimulatePhysics(true);
-	//RootComponent = mesh_Bird;
+	//create skeletan mesh component
+	mesh_Bird = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("mesh_Bird"));
 	mesh_Bird->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	mesh_Bird->SetupAttachment(RootComponent);//sino agregas esto no vas a ver las propiedades de transform position scale
+	mesh_Bird->SetSimulatePhysics(true);
 
+	//create box trigger component
 	box_trigger_dead = CreateDefaultSubobject<UBoxComponent>(TEXT("box_trigger_dead"));
 	box_trigger_dead->SetBoxExtent(FVector(64, 64, 64));
 	box_trigger_dead->AttachToComponent(mesh_Bird, FAttachmentTransformRules::KeepRelativeTransform);
@@ -114,6 +120,10 @@ void ABird_pawn::fly()
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
 	mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
 
+	//play montaje
+	//if (my_montage == nullptr) return;//si hay un montage
+	//mesh_Bird->PlayAnimation(my_montage,false);
+	//
 	if (fly_sound == nullptr) return;
 	UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
 }

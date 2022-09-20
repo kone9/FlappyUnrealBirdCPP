@@ -34,8 +34,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float dead_impulse{ 5 };
 public:
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
-	class UStaticMeshComponent* mesh_Bird{ nullptr };
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USkeletalMeshComponent* mesh_Bird{ nullptr };
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -110,4 +110,22 @@ public:
 	class UGame_Widget* ref_widget_game{ nullptr };
 
 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class UAnimMontage* my_montage; //load the montage from the editor
+
+	
+
+
+
+
+
+
+
+
 };
+
+
+
+
+
