@@ -114,16 +114,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UAnimMontage* my_montage; //load the montage from the editor
 
-	
-
-
-
-
-
 
 
 
 };
+
+
+
 
 
 
