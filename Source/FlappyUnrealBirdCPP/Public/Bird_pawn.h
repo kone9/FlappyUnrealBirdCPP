@@ -115,6 +115,11 @@ public:
 	class UAnimMontage* my_montage; //load the montage from the editor
 
 
+public:
+	//No se declara el metodo y se llama desde C++, en el blueprint es un evento que se ejecuta desde esa lina
+	UFUNCTION(BlueprintImplementableEvent)
+	void to_dead_change_ege_from_blueprint();
+
 
 
 };

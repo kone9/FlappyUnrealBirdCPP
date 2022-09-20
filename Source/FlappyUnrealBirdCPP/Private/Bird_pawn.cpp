@@ -155,6 +155,7 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	else//si colisiono con obstaculo
 	{
 		to_die();
+		to_dead_change_ege_from_blueprint();
 	}
 
 	
