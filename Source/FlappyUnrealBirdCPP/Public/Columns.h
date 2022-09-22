@@ -45,7 +45,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float maximum_z = { -500.0 };
+	float maximum_z = { -200.0 };
 
 private:
 	class AGame_mode_custom* my_game_mode{ nullptr };
