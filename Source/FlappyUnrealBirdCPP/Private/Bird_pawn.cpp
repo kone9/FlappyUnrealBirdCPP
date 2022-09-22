@@ -38,7 +38,8 @@
 //anim montage
 #include "Animation/AnimMontage.h" //If you are not in the character class you may have to import the library
 
-
+//matematic
+#include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values
@@ -93,6 +94,8 @@ void ABird_pawn::BeginPlay()
 void ABird_pawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	rotate_bird(max_down_velocity, max_up_velocity, max_down_angle);
 
 }
 
@@ -259,5 +262,35 @@ void ABird_pawn::to_die()
 
 	if (death_sound_level_sequence == nullptr) return;
 	death_sound_level_sequence->SequencePlayer->Play();
+}
+
+
+
+//rota el pajaro en un intervalo dependiendo la velocidad de caida
+void ABird_pawn::rotate_bird(float& max_down_velocity, float& max_up_velocity, float& max_down_angle)
+{
+
+	if (mesh_Bird == nullptr) return;
+	if (game_mode == nullptr) return;
+	if (game_mode->game_over == true) return;
+ 	if (mesh_Bird->IsSimulatingPhysics() == false) return;
+
+	float current_velocity = UKismetMathLibrary::Clamp(mesh_Bird->GetComponentVelocity().Z, max_down_velocity, max_up_velocity);//aseguro que la velocidad en el eje Z va a estar entre -2000 y 500 por default
+
+	//angulo que va a tener el pajaro basandose en la velocidad de caida.. 
+	//Se divide la velocidad actual entre la velocidad maxima, eso nos da la proporcion entre velocidad actual y velocidad maxima que es de 0 a 1000
+	//si dividimos la velocidad actual por la maxima velocidad y current velocity es cero, max entonces da cero
+	//despues lo multiplicamos por el angulo para obtener un angulo de "0" 
+	// si la velocidad actual es igual a la máxima y lo multiplicamos por el angulo tenemos la rotación actual en 90
+	//asi en todos los keyframes intermedios para tener los angulos intermedios
+	float angle = (current_velocity / max_down_velocity) * max_down_angle;
+
+	FRotator new_rotation = FRotator(0, 0, angle);//guardo la rotacion en angulo
+
+	mesh_Bird->SetWorldRotation(new_rotation,false,nullptr,ETeleportType::TeleportPhysics);//roto el pajaro
+	
+
+	const float float_to_print = current_velocity;
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Yellow, FString::Printf(TEXT("ANGULO por velocity Z: %f"), float_to_print));
 }
 

@@ -122,6 +122,23 @@ public:
 
 
 
+
+//ROTAR PAJARO
+public:
+	UFUNCTION(BlueprintCallable)
+	void rotate_bird(float& max_down_velocity, float& max_up_velocity, float& max_down_angle);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float max_down_velocity { -2000 };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float max_up_velocity{ 500 };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float max_down_angle{ 90 };
+
+
+
 };
 
 
