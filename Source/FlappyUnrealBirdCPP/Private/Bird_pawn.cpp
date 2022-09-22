@@ -120,6 +120,8 @@ void ABird_pawn::fly()
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
 	mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
 
+	//mesh_Bird->AddTorque(FVector(50, 0, 0));
+
 	//play montaje
 	//if (my_montage == nullptr) return;//si hay un montage
 	//mesh_Bird->PlayAnimation(my_montage,false);
