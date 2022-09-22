@@ -36,4 +36,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float new_location{ 8000 };
 
+public:
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	float diferencia_posicion{ 0 };
+
+	//search game mode
+public:
+	class AGame_mode_custom* my_game_mode{ nullptr };
+
+public:
+	FTimerHandle timer_handle_search_Game_mode;
+
+	UFUNCTION()
+	void OnTimerOut_Search_Game_mode();
+
+
 };
