@@ -132,7 +132,7 @@ public:
 	float max_down_velocity { -2000 };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float max_up_velocity{ 500 };
+	float max_up_velocity{ 600 };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float max_down_angle{ 90 };

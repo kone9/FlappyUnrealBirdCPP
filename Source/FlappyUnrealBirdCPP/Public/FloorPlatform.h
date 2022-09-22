@@ -25,7 +25,7 @@ public:
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
-	float global_velocity{ 0 };
+	float velocity{ 0 };
 
 //public:
 //	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
