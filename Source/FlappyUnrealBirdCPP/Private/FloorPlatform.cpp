@@ -45,11 +45,11 @@ void AFloorPlatform::Tick(float DeltaTime)
 	if (my_game_mode == nullptr) return;
 	if (my_game_mode->game_over == true) return;
 	
-	/*global_velocity = my_game_mode->velocity;
-	AddActorLocalOffset(FVector(0, (global_velocity * 1000) * -1 * DeltaTime, 0));*/
+	global_velocity = my_game_mode->velocity;
+	AddActorLocalOffset(FVector(0, (global_velocity * 1000) * -1 * DeltaTime, 0));
 	
 	
-	//AddActorLocalOffset(FVector(0, velocity * -1 * DeltaTime, 0));
+	AddActorLocalOffset(FVector(0, global_velocity * -1 * DeltaTime, 0));
 
 	//if (GetActorLocation().Y <= positionReload)
 	//{
