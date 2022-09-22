@@ -24,20 +24,20 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
-	float velocity{ 0 };
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
+	float global_velocity{ 0 };
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
-	float positionReload{ -4000 };
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float new_location{ 8000 };
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float offset_z{ -600 };
+//public:
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite) 
+//	float positionReload{ -4000 };
+//
+//public:
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+//	float new_location{ 8000 };
+//
+//public:
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+//	float offset_z{ -600 };
 
 public:
 	class AGame_mode_custom* my_game_mode{ nullptr };
