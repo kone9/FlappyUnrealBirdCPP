@@ -75,7 +75,7 @@ void ABird_pawn::BeginPlay()
 
 	//begin play		
 	if (GetWorld() == nullptr) return;
-	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.1, false);
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.5, false);
 	mesh_Bird->SetSimulatePhysics(false);
 
 	//get score text 3D en tabla final

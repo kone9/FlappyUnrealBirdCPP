@@ -35,7 +35,7 @@ void UReload_Position::BeginPlay()
 	// ...
 	platform = GetOwner();
 
-	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &UReload_Position::OnTimerOut_Search_Game_mode, 0.1f, false);//search game mode
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &UReload_Position::OnTimerOut_Search_Game_mode, 0.5, false);//search game mode
 }
 
 

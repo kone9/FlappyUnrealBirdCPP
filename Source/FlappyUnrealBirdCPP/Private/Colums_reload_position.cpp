@@ -39,7 +39,7 @@ void UColums_reload_position::BeginPlay()
 	// ...
 	columns = GetOwner();
 
-	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &UColums_reload_position::OnTimerOut_Search_Game_mode, 0.1f, false);//search game mode
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &UColums_reload_position::OnTimerOut_Search_Game_mode, 0.5, false);//search game mode
 }
 
 
