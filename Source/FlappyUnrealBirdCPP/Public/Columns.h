@@ -24,20 +24,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float velocity{ 0 };
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float positionReload{ -4000 };
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float new_location{ 8000 };
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float offset_z{ -600 };
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -45,23 +33,17 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float maximum_z = { -200.0 };
+		float maximum_z = { -200.0 };
 
 private:
 	class AGame_mode_custom* my_game_mode{ nullptr };
 
 
 public:
-	FTimerHandle timer_handle;
-
-	UPROPERTY(EditAnywhere)
-		float timer_to_end{ 0.1 };
-
-	UPROPERTY(EditAnywhere)
-		bool repeat_timer{ false };
+	FTimerHandle timer_handle_search_Game_mode;
 
 	UFUNCTION()
-		void OnTimerOut();
+		void OnTimerOut_Search_Game_mode();
 
 
 
@@ -70,8 +52,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class UBoxComponent* box_trigger_point;
 
-	UFUNCTION()
-	void on_component_begin_overlap_point(class UPrimitiveComponent* OverlappedComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	//UFUNCTION()
+	//void on_component_begin_overlap_point(class UPrimitiveComponent* OverlappedComp, AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	
 public:

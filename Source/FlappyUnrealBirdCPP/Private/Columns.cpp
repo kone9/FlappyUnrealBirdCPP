@@ -37,9 +37,9 @@ void AColumns::BeginPlay()
 	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)));
 	
 	if (GetWorld() == nullptr) return;
-	GetWorld()->GetTimerManager().SetTimer(timer_handle, this, &AColumns::OnTimerOut, timer_to_end, repeat_timer);
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &AColumns::OnTimerOut_Search_Game_mode, 0.1, false);
 
-	box_trigger_point->OnComponentBeginOverlap.AddDynamic(this, &AColumns::on_component_begin_overlap_point);
+	//box_trigger_point->OnComponentBeginOverlap.AddDynamic(this, &AColumns::on_component_begin_overlap_point);
 }
 
 // Called every frame
@@ -52,18 +52,14 @@ void AColumns::Tick(float DeltaTime)
 	if (my_game_mode->init_columns == false) return;
 
 	velocity = my_game_mode->velocity;
-
 	AddActorLocalOffset(FVector(0, (velocity * 1000) * -1 * DeltaTime, 0));
 
-	if (GetActorLocation().Y <= positionReload)
-	{
-		SetActorLocation(FVector(GetActorLocation().X, new_location, UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z))) ;
-	}
+	
 }
 
 
 //get game mode despues de 1 segundo
-void AColumns::OnTimerOut()
+void AColumns::OnTimerOut_Search_Game_mode()
 {
 	//game_mode = UGameplayStatics::GetGameMode( GetWorld() );
 	if (GetWorld()->GetAuthGameMode() == nullptr)
@@ -75,7 +71,8 @@ void AColumns::OnTimerOut()
 	my_game_mode = Cast<AGame_mode_custom>(GetWorld()->GetAuthGameMode());
 }
 
-void AColumns::on_component_begin_overlap_point(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("TENDRIA QUE SUMAR PUNTOS"));
-}
+
+//void AColumns::on_component_begin_overlap_point(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("TENDRIA QUE SUMAR PUNTOS"));
+//}
