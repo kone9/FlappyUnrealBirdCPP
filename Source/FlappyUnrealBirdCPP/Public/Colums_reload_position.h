@@ -51,7 +51,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float maximum_z = { -200.0 };
+	float maximum_z = { -200.0 };
 
 
 //search game mode
@@ -63,6 +63,13 @@ public:
 
 	UFUNCTION()
 	void OnTimerOut_Search_Game_mode();
+
+
+//ref box collision
+public:
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class UBoxComponent* ref_box_collision;
 
 		
 };

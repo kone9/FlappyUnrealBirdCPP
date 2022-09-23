@@ -18,6 +18,8 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
+#include "Components/BoxComponent.h"
+
 // Sets default values for this component's properties
 UColums_reload_position::UColums_reload_position()
 {
@@ -48,6 +50,7 @@ void UColums_reload_position::TickComponent(float DeltaTime, ELevelTick TickType
 
 	// ...
 	if (columns == nullptr) return;
+	if (ref_box_collision == nullptr) return;
 	if (my_game_mode == nullptr) return;
 	if (my_game_mode->game_over == true) return;
 
@@ -61,6 +64,8 @@ void UColums_reload_position::TickComponent(float DeltaTime, ELevelTick TickType
 			new_location + diferencia_posicion,//se suma la diferencia
 			UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)
 		));
+		
+		ref_box_collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);//vuelvo a habilitar la colision
 
 	}
 
@@ -75,7 +80,9 @@ void UColums_reload_position::OnTimerOut_Search_Game_mode()
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("No se encontro el GameMode"));
 		return;
 	}
+	if (GetOwner() == nullptr) return;
 
 	my_game_mode = Cast<AGame_mode_custom>(GetWorld()->GetAuthGameMode());
+	ref_box_collision = Cast<UBoxComponent>( GetOwner()->GetComponentByClass(UBoxComponent::StaticClass()) ); //busco el box component
 }
 

@@ -156,6 +156,7 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	if( OtherComp->ComponentHasTag( TEXT("trigger_point") ) )//si colisiono con puntaje
 	{
 		add_score();
+		OtherComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);//desactivo colision para que no vuelva a dar puntos hasta que reinicie posicion columna
 	}
 	else//si colisiono con obstaculo
 	{
