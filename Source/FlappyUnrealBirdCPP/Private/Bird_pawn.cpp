@@ -146,11 +146,11 @@ void ABird_pawn::pause_game()
 {
 	if (GetWorld() == nullptr) return;
 	if (pause_init_sound == nullptr) return;
-	if (pause_end_sound == nullptr) return;
+	//if (pause_end_sound == nullptr) return;
 	
 	
 	//play sound
-	if (is_game_pause == false)
+	if (add_pause_menu == false)
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), pause_init_sound);
 		
@@ -159,8 +159,8 @@ void ABird_pawn::pause_game()
 		if (new_UI == nullptr) return;
 		new_UI->AddToViewport();
 
-		is_game_pause = true;
-		UGameplayStatics::SetGamePaused(GetWorld(), is_game_pause);
+		add_pause_menu = true;
+		UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
 	}
 	/*else
 	{

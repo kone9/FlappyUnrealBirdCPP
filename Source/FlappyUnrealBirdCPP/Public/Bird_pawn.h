@@ -139,10 +139,14 @@ public:
 
 
 
-//Pause Game
+//Pause Game //ESTA BUGEADO ARREGLAR MAÑANA
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool is_game_pause{ false };
+	bool new_is_game_pause{ false };
+
+public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool add_pause_menu{ false };
 
 public:
 	UFUNCTION(BlueprintCallable)
