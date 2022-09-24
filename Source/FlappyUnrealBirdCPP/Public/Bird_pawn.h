@@ -45,13 +45,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void fly();
 
-public:
-	UFUNCTION(BlueprintCallable)
-	void pause_game();
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool is_game_pause{ false };
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -142,6 +136,22 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float max_down_angle{ 90 };
+
+
+
+//Pause Game
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool is_game_pause{ false };
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void pause_game();
+
+public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (BindWidget))
+	TSubclassOf<class UUserWidget> game_pause_ui{};
+
 
 
 

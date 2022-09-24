@@ -42,6 +42,13 @@
 #include "Kismet/KismetMathLibrary.h"
 
 
+//pause menu
+#include "Blueprint/UserWidget.h"
+#include <Engine/World.h>
+
+
+
+
 // Sets default values
 ABird_pawn::ABird_pawn()
 {
@@ -146,17 +153,24 @@ void ABird_pawn::pause_game()
 	if (is_game_pause == false)
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), pause_init_sound);
+		
+		//create widget pause
+		UUserWidget* new_UI = CreateWidget(GetWorld(), game_pause_ui);
+		if (new_UI == nullptr) return;
+		new_UI->AddToViewport();
+
+		is_game_pause = true;
+		UGameplayStatics::SetGamePaused(GetWorld(), is_game_pause);
 	}
-	else
+	/*else
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
-	}
-	is_game_pause = !is_game_pause;
-	
-	const bool my_test_bool = is_game_pause;
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, FString::Printf(TEXT("IS PAUSE GAME: %s"), my_test_bool ? TEXT("true") : TEXT("false")));
-	
-	UGameplayStatics::SetGamePaused(GetWorld(), is_game_pause);
+	}*/
+	//is_game_pause = !is_game_pause;
+	//
+	//const bool my_test_bool = is_game_pause;
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, FString::Printf(TEXT("IS PAUSE GAME: %s"), my_test_bool ? TEXT("true") : TEXT("false")));
+	//
 	
 
 }
