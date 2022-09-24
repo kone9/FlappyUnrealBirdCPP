@@ -30,7 +30,7 @@ void AFloorPlatform::BeginPlay()
 	
 	if (GetWorld() == nullptr) return;
 	
-	GetWorld()->GetTimerManager().SetTimer(timer_handle, this, &AFloorPlatform::OnTimerOut, timer_to_end, repeat_timer);
+	GetWorld()->GetTimerManager().SetTimer(timer_handle, this, &AFloorPlatform::OnTimerOut, timer_to_search_game_mode, repeat_timer);
 	///////////
 
 	

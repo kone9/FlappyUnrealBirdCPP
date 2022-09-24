@@ -47,7 +47,7 @@ public:
 	FTimerHandle timer_handle;
 	
 	UPROPERTY(EditAnywhere)
-	float timer_to_search_game_mode {0.5 };
+	float timer_to_search_game_mode {0.1 };
 	
 	UPROPERTY(EditAnywhere)
 	bool repeat_timer{ false };

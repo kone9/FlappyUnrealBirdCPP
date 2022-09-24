@@ -37,7 +37,7 @@ void AColumns::BeginPlay()
 	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)));
 	
 	if (GetWorld() == nullptr) return;
-	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &AColumns::OnTimerOut_Search_Game_mode, 0.5, false);
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_Game_mode, this, &AColumns::OnTimerOut_Search_Game_mode, 0.1, false);
 
 	//box_trigger_point->OnComponentBeginOverlap.AddDynamic(this, &AColumns::on_component_begin_overlap_point);
 }
