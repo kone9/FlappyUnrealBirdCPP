@@ -11,9 +11,9 @@
 //unreal clases
 #include <Kismet/GameplayStatics.h>
 #include <Engine/World.h>
-#include "Engine/Engine.h"
-#include "TimerManager.h"
-#include "GameFramework/CharacterMovementComponent.h"
+//#include "Engine/Engine.h"
+//#include "TimerManager.h"
+//#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/InputComponent.h"
 
 //game mode
@@ -75,7 +75,7 @@ void ABird_pawn::BeginPlay()
 
 	//begin play		
 	if (GetWorld() == nullptr) return;
-	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.5, false);
+	GetWorld()->GetTimerManager().SetTimer(timer_handle_search_game_mode, this, &ABird_pawn::OnTimerOut_search_game_mode, 0.1, false);
 	mesh_Bird->SetSimulatePhysics(false);
 
 	//get score text 3D en tabla final
@@ -114,6 +114,7 @@ void ABird_pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 //para volar
 void ABird_pawn::fly()
 {
+	if (game_mode == nullptr) return;
 	if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
 	{
 		mesh_Bird->SetSimulatePhysics(true);
@@ -149,6 +150,8 @@ void ABird_pawn::pause_game()
 //box collision para morir
 void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
+	if (game_mode == nullptr) return;
 	if (game_mode->game_over == true) return;
 	if (OtherComp == nullptr) return;
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, TEXT("LA COLISION DEL PAJARO CHOCO CON ALGO"));
