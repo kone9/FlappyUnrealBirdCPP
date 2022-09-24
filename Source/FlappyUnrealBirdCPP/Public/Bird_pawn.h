@@ -71,6 +71,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class USoundBase* fly_sound{ nullptr };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USoundBase* pause_init_sound{ nullptr };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USoundBase* pause_end_sound{ nullptr };
+
 private:
 	class AGame_mode_custom* game_mode{ nullptr };
 
