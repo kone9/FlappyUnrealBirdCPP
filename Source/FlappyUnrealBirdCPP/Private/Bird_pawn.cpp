@@ -11,9 +11,6 @@
 //unreal clases
 #include <Kismet/GameplayStatics.h>
 #include <Engine/World.h>
-//#include "Engine/Engine.h"
-//#include "TimerManager.h"
-//#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/InputComponent.h"
 
 //game mode
@@ -44,7 +41,8 @@
 
 //pause menu
 #include "Blueprint/UserWidget.h"
-#include <Engine/World.h>
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Pause_exit_Game.h"
 
 
 
@@ -122,6 +120,7 @@ void ABird_pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 void ABird_pawn::fly()
 {
 	if (game_mode == nullptr) return;
+	if (game_mode->game_over == true) return;
 	if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
 	{
 		mesh_Bird->SetSimulatePhysics(true);
@@ -141,38 +140,71 @@ void ABird_pawn::fly()
 	UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
 }
 
-//crea un pause en el juego
+
+//crea un pause en el juego cuando se presiona la tecla pause
 void ABird_pawn::pause_game()
+{
+	//create UI pause cuando presiono start
+	if (add_pause_menu == false)
+	{
+		pause_create_widget();
+	}
+	else // delete ui pause
+	{
+		pause_delete_widget();
+	}
+}
+
+
+//crea un widget de pause
+void ABird_pawn::pause_create_widget()
 {
 	if (GetWorld() == nullptr) return;
 	if (pause_init_sound == nullptr) return;
-	//if (pause_end_sound == nullptr) return;
-	
-	
-	//play sound
-	if (add_pause_menu == false)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), pause_init_sound);
-		
-		//create widget pause
-		UUserWidget* new_UI = CreateWidget(GetWorld(), game_pause_ui);
-		if (new_UI == nullptr) return;
-		new_UI->AddToViewport();
 
-		add_pause_menu = true;
-		UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
-	}
-	/*else
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
-	}*/
-	//is_game_pause = !is_game_pause;
-	//
-	//const bool my_test_bool = is_game_pause;
-	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, FString::Printf(TEXT("IS PAUSE GAME: %s"), my_test_bool ? TEXT("true") : TEXT("false")));
-	//
-	
+	add_pause_menu = true;
 
+	//create widget pause
+	UUserWidget* new_pause_UI = CreateWidget(GetWorld(), game_pause_ui);
+	if (new_pause_UI == nullptr) return;
+	new_pause_UI->AddToViewport();
+
+	//add pause
+	UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
+	
+	//input in UI
+	/*APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (playercontroller == nullptr) return;
+	UWidgetBlueprintLibrary::SetInputMode_UIOnly(playercontroller, new_pause_UI);*/
+	
+	UGameplayStatics::PlaySound2D(GetWorld(), pause_init_sound);
+}
+
+
+//si existe borra el widget pause creado anteriormente
+void ABird_pawn::pause_delete_widget()
+{
+	if (GetWorld() == nullptr) return;
+	if (pause_end_sound == nullptr) return;
+
+	//delete pause
+	add_pause_menu = false;
+	UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
+
+	//search widget
+	TArray<UUserWidget* > founds_widget;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), founds_widget, UPause_exit_Game::StaticClass());
+	UUserWidget* pause_ui = founds_widget[0];
+
+	if (pause_ui == nullptr) return;
+	
+	APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (playercontroller == nullptr) return;
+	UWidgetBlueprintLibrary::SetInputMode_GameOnly((playercontroller));
+
+	pause_ui->RemoveFromParent();
+
+	UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
 }
 
 //box collision para morir
