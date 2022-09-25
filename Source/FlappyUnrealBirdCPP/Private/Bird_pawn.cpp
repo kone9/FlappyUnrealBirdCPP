@@ -121,6 +121,7 @@ void ABird_pawn::fly()
 {
 	if (game_mode == nullptr) return;
 	if (game_mode->game_over == true) return;
+	
 	if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
 	{
 		mesh_Bird->SetSimulatePhysics(true);
@@ -224,7 +225,7 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	else//si colisiono con obstaculo
 	{
 		to_die();
-		to_dead_change_ege_from_blueprint();
+		to_dead_change_ege_from_blueprint();//esto es un evento C++ hacia un blueprint, cambio lo que hace desde el blueprint
 	}
 
 	
@@ -316,13 +317,10 @@ void ABird_pawn::to_die()
 	if (ref_widget_game == nullptr) return;
 	ref_widget_game->RemoveFromViewport();
 
-	DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	//DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (game_mode != nullptr) game_mode->game_over = true;
 
-	//mesh_Bird->AddRadialImpulse(GetActorLocation(), 1000000, 1000000,ERadialImpulseFalloff::RIF_Linear);
-	//mesh_Bird->AddImpulse(FVector::UpVector * (dead_impulse * 1000000));
 	mesh_Bird->AddImpulse(FVector((dead_impulse * 1000000), (dead_impulse * 100000), (dead_impulse * 1000000)));
-	//Beginplay example
 
 	if (death_sound_level_sequence == nullptr) return;
 	death_sound_level_sequence->SequencePlayer->Play();
