@@ -146,13 +146,13 @@ void ABird_pawn::fly()
 void ABird_pawn::pause_game()
 {
 	//create UI pause cuando presiono start
-	if (add_pause_menu == false)
+	if (is_pause == false)
 	{
-		pause_create_widget();
+		pause_create_widget();//create pause
 	}
 	else // delete ui pause
 	{
-		pause_delete_widget();
+		pause_delete_widget();//delete pause
 	}
 }
 
@@ -163,15 +163,14 @@ void ABird_pawn::pause_create_widget()
 	if (GetWorld() == nullptr) return;
 	if (pause_init_sound == nullptr) return;
 
-	add_pause_menu = true;
+	is_pause = true;//estamos en pause
 
 	//create widget pause
 	UUserWidget* new_pause_UI = CreateWidget(GetWorld(), game_pause_ui);
 	if (new_pause_UI == nullptr) return;
 	new_pause_UI->AddToViewport();
 
-	//add pause
-	UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
+	UGameplayStatics::SetGamePaused(GetWorld(), true);//set pause
 	
 	//input in UI
 	/*APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -189,8 +188,10 @@ void ABird_pawn::pause_delete_widget()
 	if (pause_end_sound == nullptr) return;
 
 	//delete pause
-	add_pause_menu = false;
-	UGameplayStatics::SetGamePaused(GetWorld(), add_pause_menu);
+	is_pause = false;//NO estamos en pause
+
+	
+	UGameplayStatics::SetGamePaused(GetWorld(), false);//set pause
 
 	//search widget
 	TArray<UUserWidget* > founds_widget;
@@ -199,9 +200,10 @@ void ABird_pawn::pause_delete_widget()
 
 	if (pause_ui == nullptr) return;
 	
+	//input mode solo en juego
 	APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	if (playercontroller == nullptr) return;
-	UWidgetBlueprintLibrary::SetInputMode_GameOnly((playercontroller));
+	UWidgetBlueprintLibrary::SetInputMode_GameAndUI((playercontroller));
 
 	pause_ui->RemoveFromParent();
 

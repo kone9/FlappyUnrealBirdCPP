@@ -145,7 +145,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	bool add_pause_menu{ false };
+	bool is_pause{ false };
 
 public:
 	UFUNCTION(BlueprintCallable)
