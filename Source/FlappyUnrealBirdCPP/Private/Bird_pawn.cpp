@@ -185,7 +185,7 @@ void ABird_pawn::pause_create_widget()
 void ABird_pawn::pause_delete_widget()
 {
 	if (GetWorld() == nullptr) return;
-	if (pause_end_sound == nullptr) return;
+	//if (pause_end_sound == nullptr) return;
 
 	//delete pause
 	is_pause = false;//NO estamos en pause
@@ -196,18 +196,22 @@ void ABird_pawn::pause_delete_widget()
 	//search widget
 	TArray<UUserWidget* > founds_widget;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), founds_widget, UPause_exit_Game::StaticClass());
-	UUserWidget* pause_ui = founds_widget[0];
-
-	if (pause_ui == nullptr) return;
 	
-	//input mode solo en juego
-	APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	if (playercontroller == nullptr) return;
-	UWidgetBlueprintLibrary::SetInputMode_GameAndUI((playercontroller));
+	if (founds_widget.Num() > 0)//solo si hay una ventana la puedo eliminar
+	{
+		UUserWidget* pause_ui = founds_widget[0];
 
-	pause_ui->RemoveFromParent();
+		if (pause_ui == nullptr) return;
+	
+		//input mode solo en juego
+		APlayerController* playercontroller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		if (playercontroller == nullptr) return;
+		UWidgetBlueprintLibrary::SetInputMode_GameAndUI((playercontroller));
 
-	UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
+		pause_ui->RemoveFromParent();
+	}
+
+	//UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
 }
 
 //box collision para morir
