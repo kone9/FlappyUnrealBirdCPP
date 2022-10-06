@@ -7,6 +7,9 @@
 //componentes unreal clases
 #include "Components/BoxComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/AmbientSound.h"
+
 
 //unreal clases
 #include <Kismet/GameplayStatics.h>
@@ -93,6 +96,18 @@ void ABird_pawn::BeginPlay()
 	ref_widget_game = Cast< UGame_Widget>( CreateWidget(GetWorld(), class_widget_game) );
 	if (ref_widget_game == nullptr) return;
 	ref_widget_game->AddToViewport();
+
+	
+
+	//search level music
+	TArray<AActor*> actor_with_tag{};
+	FName tag_actor = TEXT("music_nivel");// add tag actor here
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), tag_actor, actor_with_tag);
+	if (actor_with_tag.Num() > 0)//only if there are elements inside the array I look for it by index
+	{
+		music_nivel = Cast<AAmbientSound>( actor_with_tag[0] );
+	}
+
 }
 
 // Called every frame
@@ -119,6 +134,8 @@ void ABird_pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 //para volar
 void ABird_pawn::fly()
 {
+
+
 	if (game_mode == nullptr) return;
 	if (game_mode->game_over == true) return;
 	
@@ -126,19 +143,18 @@ void ABird_pawn::fly()
 	{
 		mesh_Bird->SetSimulatePhysics(true);
 		game_mode->init_columns = true;
+		
+		if (music_nivel->GetAudioComponent() == nullptr) return;
+		music_nivel->GetAudioComponent()->Play();
 	}
 
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
 	mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
 
-	//mesh_Bird->AddTorque(FVector(50, 0, 0));
 
-	//play montaje
-	//if (my_montage == nullptr) return;//si hay un montage
-	//mesh_Bird->PlayAnimation(my_montage,false);
-	//
 	if (fly_sound == nullptr) return;
 	UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
+	
 }
 
 
@@ -330,6 +346,10 @@ void ABird_pawn::to_die()
 
 	if (death_sound_level_sequence == nullptr) return;
 	death_sound_level_sequence->SequencePlayer->Play();
+
+	//stop music game
+	if (music_nivel->GetAudioComponent() == nullptr) return;
+	music_nivel->GetAudioComponent()->Stop();
 }
 
 

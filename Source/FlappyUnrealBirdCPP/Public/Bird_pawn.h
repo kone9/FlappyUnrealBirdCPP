@@ -70,6 +70,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class USoundBase* pause_init_sound{ nullptr };
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class AAmbientSound* music_nivel{ nullptr };
+
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	//class USoundBase* pause_end_sound{ nullptr };
 
