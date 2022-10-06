@@ -166,6 +166,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void pause_delete_widget();
 
+private:
+	class AAmbientSound* search_audio_actor_with_tag(FString tag);
+
 
 
 };

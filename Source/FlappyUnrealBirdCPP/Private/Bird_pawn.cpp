@@ -7,8 +7,6 @@
 //componentes unreal clases
 #include "Components/BoxComponent.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Components/AudioComponent.h"
-#include "Sound/AmbientSound.h"
 
 
 //unreal clases
@@ -46,6 +44,15 @@
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Pause_exit_Game.h"
+
+
+
+//audio
+#include "Components/AudioComponent.h"
+#include "Sound/AmbientSound.h"
+
+
+
 
 
 
@@ -97,17 +104,9 @@ void ABird_pawn::BeginPlay()
 	if (ref_widget_game == nullptr) return;
 	ref_widget_game->AddToViewport();
 
-	
 
-	//search level music
-	TArray<AActor*> actor_with_tag{};
-	FName tag_actor = TEXT("music_nivel");// add tag actor here
-	UGameplayStatics::GetAllActorsWithTag(GetWorld(), tag_actor, actor_with_tag);
-	if (actor_with_tag.Num() > 0)//only if there are elements inside the array I look for it by index
-	{
-		music_nivel = Cast<AAmbientSound>( actor_with_tag[0] );
-	}
-
+	//search
+	music_nivel = search_audio_actor_with_tag("music_nivel");
 }
 
 // Called every frame
@@ -230,6 +229,25 @@ void ABird_pawn::pause_delete_widget()
 	//UGameplayStatics::PlaySound2D(GetWorld(), pause_end_sound);
 }
 
+//search level music
+AAmbientSound* ABird_pawn::search_audio_actor_with_tag(FString tag)
+{
+	TArray<AActor*> actor_with_tag{};
+	FName tag_actor = FName(*tag);;// add tag actor here
+
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), tag_actor, actor_with_tag);
+	if (actor_with_tag.Num() > 0)//only if there are elements inside the array I look for it by index
+	{
+		AAmbientSound* new_sound = Cast<AAmbientSound>(actor_with_tag[0]);
+		return new_sound;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+
 //box collision para morir
 void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -252,8 +270,6 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 
 	
 }
-
-
 
 
 //get game mode after 1 second
