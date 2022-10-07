@@ -56,6 +56,14 @@ void UColums_reload_position::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (columns->GetActorLocation().Y < positionReload)
 	{
+		if (my_game_mode->player_winner)//si el jugador gano la partida destruyo las columnas
+		{
+			if (GetOwner() == nullptr) return;
+			GetOwner()->Destroy();
+			my_game_mode->cant_columns -= 1;
+			return;
+		}
+
 		diferencia_posicion = columns->GetActorLocation().Y - positionReload;//cuando llega al final hay un desplazamiento para fixear
 
 		//nueva posicion fixeada con la diferencia en la posición

@@ -334,6 +334,7 @@ void ABird_pawn::add_score()
 	FName scorefname{ FName(*score_String) };
 	scoreText_3D->SetText( FText::FromString(score_String) );
 
+
 	if (score > my_game_instance->max_score)
 	{
 		my_game_instance->max_score = score;
@@ -342,9 +343,14 @@ void ABird_pawn::add_score()
 
 	ref_widget_game->score_text->SetText(FText::FromString(score_String));
 	
+	//Las columnas se empiecen a destruir y guardo el úntaje para el proximo nivel
+	if (game_mode->score == game_mode->max_score)
+	{
+		game_mode->player_winner = true;
+		my_game_instance->score_actual = score;
+	}
 
-	const int int_to_print = score;
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("SUMA PUNTOS PUNTAJE ACTUAL = %i"), int_to_print));
+
 }
 
 

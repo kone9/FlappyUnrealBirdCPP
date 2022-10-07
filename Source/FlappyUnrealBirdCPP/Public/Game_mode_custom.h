@@ -33,4 +33,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int score{0};
 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool player_winner{ false };
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int max_score{ 30 };
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int cant_columns{ 4 };
+
 };

@@ -22,4 +22,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool start_game_once{ false };
 
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	int score_actual{ 0 };
+
 };
