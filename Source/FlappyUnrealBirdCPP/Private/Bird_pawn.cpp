@@ -133,26 +133,42 @@ void ABird_pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 //para volar
 void ABird_pawn::fly()
 {
-
-
 	if (game_mode == nullptr) return;
+	if (box_trigger_dead == nullptr) return;
 	if (game_mode->game_over == true) return;
-	
-	if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
+
+	if (debug_columns)//rápido para debuggear columnas
 	{
-		mesh_Bird->SetSimulatePhysics(true);
-		game_mode->init_columns = true;
+		if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
+		{
+			game_mode->init_columns = true;
+			if (music_nivel->GetAudioComponent() == nullptr) return;
+			//music_nivel->GetAudioComponent()->Play();
+			box_trigger_dead->SetGenerateOverlapEvents(false);
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("INICIA JUEGO CON DEBUG PAJARO Y COLUMS"));
+		}
+	}
+	else///CUANDO TERMINE DE DEBUGGEAR DEJAR SOLO LA PARTE ESTA
+	{
+	
+		if (game_mode->init_columns == false)//para activar fisicas y hacer que las columnas se muevan
+		{
 		
-		if (music_nivel->GetAudioComponent() == nullptr) return;
-		music_nivel->GetAudioComponent()->Play();
+			game_mode->init_columns = true;
+			mesh_Bird->SetSimulatePhysics(true);
+		
+			if (music_nivel->GetAudioComponent() == nullptr) return;
+			music_nivel->GetAudioComponent()->Play();
+		}
+
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
+		mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
+
+
+		if (fly_sound == nullptr) return;
+		UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
 	}
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PRESIONE LA TECLA VOLAR"));
-	mesh_Bird->AddImpulse(FVector::UpVector * (impulse * 1000000) );
-
-
-	if (fly_sound == nullptr) return;
-	UGameplayStatics::PlaySound2D(GetWorld(), fly_sound);
 	
 }
 
@@ -247,6 +263,22 @@ AAmbientSound* ABird_pawn::search_audio_actor_with_tag(FString tag)
 	}
 }
 
+//verifica si el jugador llego al puntaje máximo y gano el nivel
+bool ABird_pawn::check_winner(int score)
+{
+	if (game_mode == nullptr) return false;
+	if (my_game_instance == nullptr) return false;
+
+	if (score == game_mode->nivel_max_score_winner)
+	{
+		//game_mode->nivel_winner = true;
+		//agregar boss
+		return true;
+	}
+	return false;
+
+}
+
 
 //box collision para morir
 void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -255,12 +287,18 @@ void ABird_pawn::on_component_begin_overlap(UPrimitiveComponent* OverlappedComp,
 	if (game_mode == nullptr) return;
 	if (game_mode->game_over == true) return;
 	if (OtherComp == nullptr) return;
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, TEXT("LA COLISION DEL PAJARO CHOCO CON ALGO"));
+
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, TEXT("LA COLISION DEL PAJARO CHOCO CON ALGO"));
 
 	if( OtherComp->ComponentHasTag( TEXT("trigger_point") ) )//si colisiono con puntaje
 	{
-		add_score();
+
+		//verifica si gane cuando agrego score
+		int score = add_score();
+		check_winner(score);//verifica puntaje actual con respecto al del game mode
 		OtherComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);//desactivo colision para que no vuelva a dar puntos hasta que reinicie posicion columna
+		
+
 	}
 	else//si colisiono con obstaculo
 	{
@@ -285,7 +323,6 @@ void ABird_pawn::OnTimerOut_search_game_mode()
 	game_mode = Cast<AGame_mode_custom>(GetWorld()->GetAuthGameMode());
 	my_game_instance = Cast<UGameInstance_FlappyUnrealBird>( UGameplayStatics::GetGameInstance(GetWorld()) ) ;
 }
-
 
 //busca los textos que se encuentran dentro de los componetes en los blueprint
 UTextRenderComponent* ABird_pawn::search_component3DTEXT_in_bluprint(FName componentTag)
@@ -316,41 +353,28 @@ UTextRenderComponent* ABird_pawn::search_component3DTEXT_in_bluprint(FName compo
 }
 
 //agrega puntaje al tablero principal y a la interface del juego
-void ABird_pawn::add_score()
+int ABird_pawn::add_score()
 {
-	if (game_mode == nullptr) return;
-	if (scoreText_3D == nullptr) return;
-	if (my_game_instance == nullptr) return;
-	if (bestScoreTextRender == nullptr) return;
-	if (coint_sound == nullptr) return;
-	if (ref_widget_game == nullptr) return;
+
+	if (game_mode == nullptr) 0;
+	if (scoreText_3D == nullptr) 0;
+	if (my_game_instance == nullptr) 0;
+	if (bestScoreTextRender == nullptr) 0;
+	if (coint_sound == nullptr) 0;
+	if (ref_widget_game == nullptr) 0;
 
 	UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
 
-	game_mode->score += 1;
-	int score = game_mode->score;
+	game_mode->actual_score += 1;
 
+	int score = game_mode->actual_score;
 	FString score_String{ FString::FromInt(score) };
 	FName scorefname{ FName(*score_String) };
 	scoreText_3D->SetText( FText::FromString(score_String) );
 
-
-	if (score > my_game_instance->max_score)
-	{
-		my_game_instance->max_score = score;
-		bestScoreTextRender->SetText(FText::FromString( score_String) );
-	}
-
 	ref_widget_game->score_text->SetText(FText::FromString(score_String));
-	
-	//Las columnas se empiecen a destruir y guardo el úntaje para el proximo nivel
-	if (game_mode->score == game_mode->max_score)
-	{
-		game_mode->player_winner = true;
-		my_game_instance->score_actual = score;
-	}
 
-
+	return score;
 }
 
 
@@ -400,7 +424,7 @@ void ABird_pawn::rotate_bird(float& max_down_velocity, float& max_up_velocity, f
 	mesh_Bird->SetWorldRotation(new_rotation,false,nullptr,ETeleportType::TeleportPhysics);//roto el pajaro
 	
 
-	const float float_to_print = current_velocity;
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Yellow, FString::Printf(TEXT("ANGULO por velocity Z: %f"), float_to_print));
+	/*const float float_to_print = current_velocity;
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Yellow, FString::Printf(TEXT("ANGULO por velocity Z: %f"), float_to_print));*/
 }
 

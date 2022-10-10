@@ -54,26 +54,29 @@ void UColums_reload_position::TickComponent(float DeltaTime, ELevelTick TickType
 	if (my_game_mode == nullptr) return;
 	if (my_game_mode->game_over == true) return;
 
-	if (columns->GetActorLocation().Y < positionReload)
+	if (columns->GetActorLocation().Y < positionReload)//si la posicion es menor a la posicion de reinicio
 	{
-		if (my_game_mode->player_winner)//si el jugador gano la partida destruyo las columnas
+		if (my_game_mode->actual_score != my_game_mode->nivel_max_score_winner)//si el jugador no gano la partida en reposicionnar las sigo reposicionnando
 		{
+			diferencia_posicion = columns->GetActorLocation().Y - positionReload;//cuando llega al final hay un desplazamiento para fixear
+
+			//nueva posicion fixeada con la diferencia en la posición
+			columns->SetActorLocation(FVector(
+				columns->GetActorLocation().X,
+				new_location + diferencia_posicion,//se suma la diferencia
+				UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)
+			));
+		
+			ref_box_collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);//vuelvo a habilitar la colision
+		}
+		else
+		{
+			my_game_mode->end_colums();
+
 			if (GetOwner() == nullptr) return;
 			GetOwner()->Destroy();
-			my_game_mode->cant_columns -= 1;
-			return;
 		}
 
-		diferencia_posicion = columns->GetActorLocation().Y - positionReload;//cuando llega al final hay un desplazamiento para fixear
-
-		//nueva posicion fixeada con la diferencia en la posición
-		columns->SetActorLocation(FVector(
-			columns->GetActorLocation().X,
-			new_location + diferencia_posicion,//se suma la diferencia
-			UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)
-		));
-		
-		ref_box_collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);//vuelvo a habilitar la colision
 
 	}
 

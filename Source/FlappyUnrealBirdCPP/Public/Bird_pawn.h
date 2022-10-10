@@ -32,6 +32,10 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool debug_columns{ false };
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float dead_impulse{ 5 };
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -97,7 +101,9 @@ private:
 	class UTextRenderComponent* bestScoreTextRender{ nullptr };
 
 private:
-	void add_score();
+	int add_score();
+
+	bool check_winner(int score);
 
 	void to_die();
 
@@ -168,6 +174,8 @@ public:
 
 private:
 	class AAmbientSound* search_audio_actor_with_tag(FString tag);
+
+
 
 
 

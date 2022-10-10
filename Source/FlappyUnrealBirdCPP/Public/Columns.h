@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Columns.generated.h"
 
+
 UCLASS()
 class FLAPPYUNREALBIRDCPP_API AColumns : public AActor
 {

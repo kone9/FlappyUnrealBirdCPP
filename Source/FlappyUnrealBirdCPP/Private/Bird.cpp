@@ -48,7 +48,7 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //para hacer volar con el input
 void ABird::fly()
 {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Tendria que volar"));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Tendria que volar"));
 
 	if (character_movement == nullptr) return;
 
