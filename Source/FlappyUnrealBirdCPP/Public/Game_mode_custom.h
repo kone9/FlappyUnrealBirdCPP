@@ -51,6 +51,13 @@ public:
 	void end_colums();
 
 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AActor> boss_colums;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void desactivar_actor();
 
 
 };
