@@ -60,4 +60,12 @@ public:
 	void desactivar_actor();
 
 
+public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	USoundBase* end_game_winner_sound;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName new_level_name = TEXT("new_level_name");// Level_Game
+
 };

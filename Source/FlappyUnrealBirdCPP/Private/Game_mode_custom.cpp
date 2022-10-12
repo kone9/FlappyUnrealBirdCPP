@@ -4,6 +4,7 @@
 #include "Game_mode_custom.h"
 #include <Kismet/GameplayStatics.h>
 #include "Bird_pawn.h"
+#include <Kismet/GameplayStatics.h>
 
 AGame_mode_custom::AGame_mode_custom()
 {
@@ -14,17 +15,28 @@ AGame_mode_custom::AGame_mode_custom()
 //Para llamar cuando se destruyen las columnas
 void AGame_mode_custom::end_colums()
 {
+	if (GetWorld() == nullptr) return;
+
 	cant_columns -= 1;
 
-	if(cant_columns == 1)//sino hay más columns
+	if(cant_columns == 2)//sino hay más columns
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::White, TEXT("TENDRIA QUE INICAR ANIMACION CAMBIAR DE NIVEL"));
 		nivel_winner = true;
 		
 		desactivar_actor();
+
+		if (end_game_winner_sound == nullptr) return;
+		UGameplayStatics::PlaySound2D(GetWorld(), end_game_winner_sound);
 		
 	}
+	if (cant_columns == 1)//sino hay más columns
+	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::White, TEXT("TENDRIA QUE INICAR ANIMACION CAMBIAR DE NIVEL"));
+		
+		UGameplayStatics::OpenLevel(GetWorld(), new_level_name);
 
+	}
 
 
 

@@ -9,6 +9,11 @@ public class FlappyUnrealBirdCPPTarget : TargetRules
 	{
 		Type = TargetType.Game;
 
-		ExtraModuleNames.AddRange( new string[] { "FlappyUnrealBirdCPP" } );
+		//mejorar tiempos de compilado
+        MinFilesUsingPrecompiledHeaderOverride = 1;
+        bFasterWithoutUnity = true;
+		//-----------------------------
+
+        ExtraModuleNames.AddRange( new string[] { "FlappyUnrealBirdCPP" } );
 	}
 }
