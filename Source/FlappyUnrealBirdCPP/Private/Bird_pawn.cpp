@@ -94,8 +94,8 @@ void ABird_pawn::BeginPlay()
 	mesh_Bird->SetSimulatePhysics(false);
 
 	//get score text 3D en tabla final
-	scoreText_3D = search_component3DTEXT_in_bluprint(TEXT("scoreText_3D"));
-	bestScoreTextRender = search_component3DTEXT_in_bluprint(TEXT("BestScoreTextRender"));
+	/*scoreText_3D = search_component3DTEXT_in_bluprint(TEXT("scoreText_3D"));
+	bestScoreTextRender = search_component3DTEXT_in_bluprint(TEXT("BestScoreTextRender"));*/
 
 	//create widget from player
 
@@ -369,10 +369,11 @@ int ABird_pawn::add_score()
 
 	int score = game_mode->actual_score;
 	FString score_String{ FString::FromInt(score) };
-	FName scorefname{ FName(*score_String) };
-	scoreText_3D->SetText( FText::FromString(score_String) );
-
 	ref_widget_game->score_text->SetText(FText::FromString(score_String));
+	
+	//FName scorefname{ FName(*score_String) };
+	//scoreText_3D->SetText( FText::FromString(score_String) );
+
 
 	return score;
 }
