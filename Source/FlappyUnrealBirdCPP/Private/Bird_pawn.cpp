@@ -365,7 +365,7 @@ int ABird_pawn::add_score()
 
 	UGameplayStatics::PlaySound2D(GetWorld(), coint_sound);
 
-	game_mode->actual_score += 1;
+	game_mode->actual_score = game_mode->actual_score + 1;
 
 	int score = game_mode->actual_score;
 	FString score_String{ FString::FromInt(score) };
