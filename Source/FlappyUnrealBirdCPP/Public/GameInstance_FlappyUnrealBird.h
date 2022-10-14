@@ -26,4 +26,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	int score_actual{ 0 };
 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int cant_lifes{ 3 };
+
 };

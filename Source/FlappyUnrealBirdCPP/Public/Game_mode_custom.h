@@ -18,6 +18,7 @@ class FLAPPYUNREALBIRDCPP_API AGame_mode_custom : public AGameModeBase
 public:
 	AGame_mode_custom();
 
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float velocity{ 10 };

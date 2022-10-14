@@ -384,7 +384,10 @@ void ABird_pawn::to_die()
 {
 	if (GetWorld() == nullptr) return;
 	if (ref_widget_game == nullptr) return;
+	if (my_game_instance == nullptr) return;
 	ref_widget_game->RemoveFromViewport();
+	
+	my_game_instance->cant_lifes -= 1;//cantidad de vida del game isntance para volver al inicio o reiniciar nivel,
 
 	//DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (game_mode != nullptr) game_mode->game_over = true;
@@ -397,6 +400,9 @@ void ABird_pawn::to_die()
 	//stop music game
 	if (music_nivel->GetAudioComponent() == nullptr) return;
 	music_nivel->GetAudioComponent()->Stop();
+
+
+
 }
 
 
