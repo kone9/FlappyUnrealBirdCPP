@@ -9,6 +9,20 @@
 /**
  * 
  */
+
+
+//Global UENUM enumeracion para determinar nivel actual
+UENUM(BlueprintType)
+enum class ActualNivel : uint8
+{
+	nivel_1 UMETA(DisplayName = "nivel_1"),
+	nivel_2 UMETA(DisplayName = "nivel_2"),
+	nivel_3 UMETA(DisplayName = "nivel_3"),
+	nivel_4 UMETA(DisplayName = "nivel_4")
+};
+
+
+
 UCLASS()
 class FLAPPYUNREALBIRDCPP_API UGameInstance_FlappyUnrealBird : public UGameInstance
 {
@@ -29,5 +43,12 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int cant_lifes{ 3 };
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ActualNivel estoy_en_nivel{ ActualNivel::nivel_1 };
+
+
+	
 
 };
