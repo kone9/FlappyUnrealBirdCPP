@@ -137,6 +137,7 @@ void ABird_pawn::fly()
 	if (game_mode == nullptr) return;
 	if (box_trigger_dead == nullptr) return;
 	if (game_mode->game_over == true) return;
+	if (game_mode->nivel_winner == true) return;
 
 	if (debug_columns)//rápido para debuggear columnas
 	{
