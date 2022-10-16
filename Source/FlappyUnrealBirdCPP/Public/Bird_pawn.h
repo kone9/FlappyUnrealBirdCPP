@@ -176,6 +176,14 @@ private:
 	class AAmbientSound* search_audio_actor_with_tag(FString tag);
 
 
+//CAMBIAR DE NIVEL
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class ALevelSequenceActor* Sequencer_change_level{ nullptr }; //load the level_Sequencer from editor
+
+
+
+
 
 
 

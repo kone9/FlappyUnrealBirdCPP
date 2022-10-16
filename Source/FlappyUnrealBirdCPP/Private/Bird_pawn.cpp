@@ -57,6 +57,7 @@
 
 
 
+
 // Sets default values
 ABird_pawn::ABird_pawn()
 {
@@ -269,9 +270,15 @@ bool ABird_pawn::check_winner(int score)
 	if (game_mode == nullptr) return false;
 	if (my_game_instance == nullptr) return false;
 
-	if (score == game_mode->nivel_max_score_winner)
+	if (score >= game_mode->nivel_max_score_winner)
 	{
-		//game_mode->nivel_winner = true;
+		game_mode->nivel_winner = true;
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("GANASTE NIVEL"));
+		
+		//change scene
+		if (Sequencer_change_level == nullptr) return true;
+		Sequencer_change_level->SequencePlayer->Play();
+
 		//agregar boss
 		return true;
 	}
@@ -372,6 +379,7 @@ int ABird_pawn::add_score()
 	int score = game_mode->actual_score;
 	FString score_String{ FString::FromInt(score) };
 	ref_widget_game->score_text->SetText(FText::FromString(score_String));
+
 	
 	//FName scorefname{ FName(*score_String) };
 	//scoreText_3D->SetText( FText::FromString(score_String) );
