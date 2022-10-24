@@ -11,5 +11,4 @@ Developed with Unreal Engine 4.27
 ![GamePlay](foto7.jpg)
 ![GamePlay](foto8.jpg)
 ![GamePlay](foto9.jpg)
-![GamePlay](foto9.jpg)
 ![GamePlay](foto10.jpg)
