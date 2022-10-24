@@ -279,6 +279,7 @@ bool ABird_pawn::check_winner(int score)
 		//change scene
 		if (Sequencer_change_level == nullptr) return true;
 		Sequencer_change_level->SequencePlayer->Play();
+		
 
 		//agregar boss
 		return true;

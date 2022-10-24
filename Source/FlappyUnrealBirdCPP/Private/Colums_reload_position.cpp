@@ -56,26 +56,26 @@ void UColums_reload_position::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (columns->GetActorLocation().Y < positionReload)//si la posicion es menor a la posicion de reinicio
 	{
-		if (my_game_mode->actual_score != my_game_mode->nivel_max_score_winner)//si el jugador no gano la partida en reposicionnar las sigo reposicionnando
-		{
-			diferencia_posicion = columns->GetActorLocation().Y - positionReload;//cuando llega al final hay un desplazamiento para fixear
+		//if (my_game_mode->actual_score != my_game_mode->nivel_max_score_winner)//si el jugador no gano la partida en reposicionnar las sigo reposicionnando
+		//{
+		diferencia_posicion = columns->GetActorLocation().Y - positionReload;//cuando llega al final hay un desplazamiento para fixear
 
-			//nueva posicion fixeada con la diferencia en la posición
-			columns->SetActorLocation(FVector(
-				columns->GetActorLocation().X,
-				new_location + diferencia_posicion,//se suma la diferencia
-				UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)
-			));
+		//nueva posicion fixeada con la diferencia en la posición
+		columns->SetActorLocation(FVector(
+			columns->GetActorLocation().X,
+			new_location + diferencia_posicion,//se suma la diferencia
+			UKismetMathLibrary::RandomFloatInRange(minimum_z, maximum_z)
+		));
 		
-			ref_box_collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);//vuelvo a habilitar la colision
-		}
+		ref_box_collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);//vuelvo a habilitar la colision
+		/*}
 		else
 		{
 			my_game_mode->end_colums();
 
 			if (GetOwner() == nullptr) return;
 			GetOwner()->Destroy();
-		}
+		}*/
 
 
 	}
