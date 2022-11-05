@@ -265,6 +265,27 @@ AAmbientSound* ABird_pawn::search_audio_actor_with_tag(FString tag)
 	}
 }
 
+void ABird_pawn::disable_collision_Score()
+{
+	if (GetWorld() == nullptr) return;
+
+	TArray<AActor*> actor_with_tag{};
+	FName tag_actor = TEXT("actor_tag");// add tag actor here
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), tag_actor, actor_with_tag);
+	if (actor_with_tag.Num() > 0)//only if there are elements inside the array I look for it by index
+	{
+		for (AActor* i : actor_with_tag)
+		{
+			if (i == nullptr) return;
+			AActor* actor = i;
+
+			UBoxComponent* box_collision = Cast< UBoxComponent>(actor->GetComponentsByTag(UBoxComponent::StaticClass(), TEXT("trigger_point"))[0]);
+			box_collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+
+	}
+}
+
 //verifica si el jugador llego al puntaje máximo y gano el nivel
 bool ABird_pawn::check_winner(int score)
 {
@@ -397,6 +418,7 @@ void ABird_pawn::to_die()
 	if (GetWorld() == nullptr) return;
 	if (ref_widget_game == nullptr) return;
 	if (my_game_instance == nullptr) return;
+
 	ref_widget_game->RemoveFromViewport();
 	
 	my_game_instance->cant_lifes -= 1;//cantidad de vida del game isntance para volver al inicio o reiniciar nivel,
@@ -412,7 +434,6 @@ void ABird_pawn::to_die()
 	//stop music game
 	if (music_nivel->GetAudioComponent() == nullptr) return;
 	music_nivel->GetAudioComponent()->Stop();
-
 
 
 }

@@ -15,6 +15,7 @@
 UENUM(BlueprintType)
 enum class ActualNivel : uint8
 {
+	nivel_0 UMETA(DisplayName = "nivel_0"),
 	nivel_1 UMETA(DisplayName = "nivel_1"),
 	nivel_2 UMETA(DisplayName = "nivel_2"),
 	nivel_3 UMETA(DisplayName = "nivel_3"),
@@ -46,7 +47,7 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	ActualNivel estoy_en_nivel{ ActualNivel::nivel_1 };
+	ActualNivel estoy_en_nivel{ ActualNivel::nivel_0 };
 
 
 	
